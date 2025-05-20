@@ -52,7 +52,9 @@ else
 fi    
 
 mkdir -p /app &>> $log_name
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $log_name
+VALIDATION $? "\Downloading Catalogue"
+
 rm -rf /app/*  #removing because if we run the script 2nd time we again paste it
 cd /app 
 unzip /tmp/catalogue.zip &>> $log_name
@@ -82,5 +84,5 @@ then
     mongosh --host mongodb.jiony.xyz </app/db/master-data.js &>>$LOG_FILE
     VALIDATION $? "Loading data into MongoDB"
 else
-    echo -e "Data is already loaded ... $Y SKIPPING $N"
+    echo -e "Data is already loaded ... $yellow SKIPPING $normal"
 fi

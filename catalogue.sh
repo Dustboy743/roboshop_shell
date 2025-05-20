@@ -44,6 +44,7 @@ VALIDATION $? "Installing nodejs"
 
 id roboshop
 if [ $? -ne 0 ]
+then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $log_name
     VALIDATION $? "useradd"
 else
@@ -66,7 +67,7 @@ VALIDATION $? "systmctl daemon-reload"
 
 systemctl enable catalogue &>> $log_name
 VALIDATION $? "Enabling catalogue"
-
+https://github.com/Dustboy743/roboshop_shell.git
 systemctl start catalogue &>> $log_name
 VALIDATION $? "Starting catalogue"
 

@@ -67,7 +67,7 @@ VALIDATION $? "systmctl daemon-reload"
 
 systemctl enable catalogue &>> $log_name
 VALIDATION $? "Enabling catalogue"
-https://github.com/Dustboy743/roboshop_shell.git
+
 systemctl start catalogue &>> $log_name
 VALIDATION $? "Starting catalogue"
 

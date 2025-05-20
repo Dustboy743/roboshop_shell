@@ -9,6 +9,8 @@ log_folder="/var/log/roboshop_logs"   #create a folder
 file_name=$(echo $0 | cut -d "." -f1) #to extract the name
 log_name="$log_folder/$file_name"
 
+mkdir -p $log_folder
+
 $(id -u)  #checking the user
 if [ $? -ne 0 ]
 then 

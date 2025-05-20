@@ -16,9 +16,9 @@ mkdir -p $log_folder
 if [ $user -ne 0 ]
 then 
     echo -e "$red You're not the root user $normal" | tee -a $log_name
+    exit 1
 else
     echo -e "$green You're a root user $normal"| tee -a $log_name
-    exit 1
 fi
 
 # validate functions takes input as exit status, what command they tried to install

@@ -36,7 +36,7 @@ VALIDATION()
 
 dnf module disable nginx -y &>> $log_name
 dnf module enable nginx:1.24 -y &>> $log_name
-dnf install nginx -y | tee -y &>> $log_name
+dnf install nginx -y | tee -a &>> $log_name
 VALIDATION $? "nginx installation" 
 
 systemctl enable nginx &>> $log_name

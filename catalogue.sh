@@ -42,11 +42,17 @@ VALIDATION $? "enabling nodejs:20"
 dnf install nodejs -y &>> $log_name
 VALIDATION $? "Installing nodejs"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $log_name
-VALIDATION $? "useradd"
+id roboshop
+if [ $? -ne 0 ]
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $log_name
+    VALIDATION $? "useradd"
+else
+    echo -e "System user roboshop already created ... $Y SKIPPING $N"
+fi    
 
 mkdir -p /app &>> $log_name
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+rm -rf /app/*  #removing because if we run the script 2nd time we again paste it
 cd /app 
 unzip /tmp/catalogue.zip &>> $log_name
 npm install | tee -a $log_name

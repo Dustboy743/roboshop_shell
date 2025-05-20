@@ -8,11 +8,12 @@ current_directory=$PWD
 log_folder="/var/log/roboshop_logs"   #create a folder
 file_name=$(echo $0 | cut -d "." -f1) #to extract the name
 log_name="$log_folder/$file_name"
+user=$(id -u)
 
 mkdir -p $log_folder
 
-$(id -u)  #checking the user
-if [ $? -ne 0 ]
+#$(id -u)  #checking the user
+if [ $user -ne 0 ]
 then 
     echo -e "$red You're not the root user $normal" | tee -a $log_name
 else
@@ -40,13 +41,13 @@ dnf install mongodb-org -y &>> $log_name
 VALIDATION $? "mongo_db installation"
 
 systemctl enable mongod &>> $log_name
-VALIDATE $? "Enabling MongoDB"
+VALIDATION $? "Enabling MongoDB"
 
 systemctl start mongod &>> $log_name
 VALIDATION $? "Starting MongoDB" 
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-VALIDATE $? "Editing MongoDB conf file for remote connections"
+VALIDATION $? "Editing MongoDB conf file for remote connections"
 
 
 

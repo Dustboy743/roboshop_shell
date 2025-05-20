@@ -75,5 +75,12 @@ cp $current_directory/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>> $log_name
 VALIDATION $? "installing mongodb"
 
-mongosh --host mongodb.jiony.xyz </app/db/master-data.js &>> $log_name
-VALIDATION $? "copying mongodb database"
+#will check whether mongodb data is already present or not to avoid copying multiple times
+STATUS=$(mongosh --host mongodb.jiony.xyz --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+if [ $STATUS -lt 0 ]
+then
+    mongosh --host mongodb.jiony.xyz </app/db/master-data.js &>>$LOG_FILE
+    VALIDATION $? "Loading data into MongoDB"
+else
+    echo -e "Data is already loaded ... $Y SKIPPING $N"
+fi

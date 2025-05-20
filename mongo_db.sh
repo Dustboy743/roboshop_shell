@@ -4,13 +4,13 @@ red="\e[31m"
 green="\e[32m"
 yellow="\e[33m"
 normal="\e[0m"
-current_directory=$PWD
+current_directory=$PWD  #to get the current working directory
 log_folder="/var/log/roboshop_logs"   #create a folder
 file_name=$(echo $0 | cut -d "." -f1) #to extract the name
 log_name="$log_folder/$file_name.log"
-user=$(id -u)
+user=$(id -u)  #to get user ID
 
-mkdir -p $log_folder
+mkdir -p $log_folder #create a log folder
 
 #$(id -u)  #checking the user
 if [ $user -ne 0 ]

@@ -50,6 +50,7 @@ then
     VALIDATION $? "useradd"
 else
     echo -e "System user roboshop already created ... $yellow SKIPPING $normal"
+fi    
     
 mkdir -p /app &>> $log_name
 

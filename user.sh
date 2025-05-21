@@ -65,10 +65,10 @@ VALIDATION $? "Copying of file"
 systemctl daemon-reload &>> $log_name
 VALIDATION $? "systmctl daemon-reload"
 
-systemctl enable catalogue &>> $log_name
-VALIDATION $? "Enabling catalogue"
+systemctl enable user &>> $log_name
+VALIDATION $? "Enabling user"
 
-systemctl start catalogue &>> $log_name
-VALIDATION $? "Starting catalogue"
+systemctl start user &>> $log_name
+VALIDATION $? "Starting user"
 
 

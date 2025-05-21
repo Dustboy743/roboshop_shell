@@ -38,11 +38,11 @@ echo "Please enter root password to setup"
 read -s MYSQL_ROOT_PASSWORD
 
 dnf install mysql-server -y &>> $log_name
-VALIDATION &? "installing mysql"
+VALIDATION $? "installing mysql"
 
 systemctl enable mysqld &>> $log_name
 systemctl start mysqld  &>> $log_name
-VALIDATION &? "starting mysql"
+VALIDATION $? "starting mysql"
 
 mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD &>> $log_name 
 VALIDATION $? "Setting MySQL root password"

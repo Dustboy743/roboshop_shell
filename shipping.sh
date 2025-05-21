@@ -56,7 +56,7 @@ unzip /tmp/shipping.zip
 VALIDATION $? "unzipping of shipping"
 
 mvn clean package  &>> $log_name
-mv target/shipping-1.0.jar shipping.jar $log_name
+mv target/shipping-1.0.jar shipping.jar &>> $log_name
 VALIDATION $? "renaming of file"
 
 cp $current_directory/shipping.service /etc/systemd/system/shipping.service &>>$log_name
@@ -72,7 +72,7 @@ systemctl start shipping &>> $log_name
 VALIDATION $? "Starting shipping"
 
 dnf install mysql -y  &>> $log_name
-VALIDATION $? "installing of myshippingsql"
+VALIDATION $? "installing of mysql"
 
 #to check already data is copied
 mysql -h mysql.jiony.xyz -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities' &>>$log_name

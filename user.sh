@@ -60,6 +60,9 @@ cd /app
 unzip /tmp/user.zip &>> $log_name
 VALIDATION $? "unzipping of file"
 
+npm install &>> $log_name
+VALIDATION $? "Installing Dependencies"
+
 cp $current_directory/user.service /etc/systemd/system/user.service &>> $log_name
 VALIDATION $? "Copying of file"
 

@@ -11,7 +11,7 @@ log_name="$log_folder/$file_name.log"
 user=$(id -u)  #to get user ID
 
 mkdir -p $log_folder #create a log folder
-echo "Script executed at $(DATE)" &>> $log_name
+echo "Script executed at $(date)" &>> $log_name
 
 #$(id -u)  #checking the user
 if [ $user -ne 0 ]

@@ -22,6 +22,18 @@ else
     echo -e "$green You're a root user $normal"| tee -a $log_name
 fi
 
+# validate functions takes input as exit status, what command they tried to install
+VALIDATION()
+{
+    if [ $1 -eq 0 ]
+    then   
+        echo -e "$2 is $green SUCCESS $normal" | tee -a $log_name
+    else   
+        echo -e "$2 is $red FAILURE $normal" | tee -a $log_name
+        exit 1
+    fi    
+}
+
 dnf install python3 gcc python3-devel -y &>> $log_name
 VALIDATION $? "Installation of Python"
 

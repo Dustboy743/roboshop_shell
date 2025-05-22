@@ -1,0 +1,53 @@
+#!/bin/bash
+
+red="\e[31m"
+green="\e[32m"
+yellow="\e[33m"
+normal="\e[0m"
+current_directory=$PWD  #to get the current working directory
+log_folder="/var/log/roboshop_logs"   #create a folder
+file_name=$(echo $0 | cut -d "." -f1) #to extract the name
+log_name="$log_folder/$file_name.log"
+user=$(id -u)  #to get user ID
+
+mkdir -p $log_folder #create a log folder
+echo "Script executed at $(date)" &>> $log_name
+
+#$(id -u)  #checking the user
+if [ $user -ne 0 ]
+then 
+    echo -e "$red You're not the root user $normal" | tee -a $log_name
+    exit 1
+else
+    echo -e "$green You're a root user $normal"| tee -a $log_name
+fi
+
+dnf install python3 gcc python3-devel -y &>> $log_name
+VALIDATION $? "Installation of Python"
+
+id roboshop
+if [ $? -ne 0 ]
+then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $log_name
+else
+    echo "user already created"
+fi
+
+mkdir /app 
+
+rm -rf /app/*
+curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>> $log_name
+cd /app 
+unzip /tmp/payment.zip &>> $log_name
+VALIDATION $? "unzipping"
+
+pip3 install -r requirements.txt &>> $log_name
+VALIDATION $? "installation"
+
+cp $current_directory/payment.service /etc/systemd/system/payment.service &>> $log_name
+VALIDATION $? "copying of service file"
+
+systemctl daemon-reload 
+systemctl enable payment 
+systemctl start payment
+VALIDATION $? "system start"
